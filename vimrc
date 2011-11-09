@@ -178,7 +178,7 @@ endif
 " Color scheme
 set background=dark
 if has("gui_running")
-  colorscheme railscasts
+  colorscheme macvim
 else
   colorscheme solarized
   highlight Normal ctermbg=Black
