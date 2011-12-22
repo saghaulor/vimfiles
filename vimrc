@@ -8,6 +8,31 @@ call pathogen#helptags()
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+" per http://stevelosh.com/blog/2010/09/coming-home-to-vim/#making-vim-more-useful
+set modelines=0
+set relativenumber
+set undofile
+nnoremap / /\v
+vnoremap / /\v
+set gdefault
+nnoremap <tab> %
+vnoremap <tab> %
+set list
+set listchars=tab:▸\ ,eol:¬
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
+nnoremap j gj
+nnoremap k gk
+nnoremap ; :
+au FocusLost * :wa
+inoremap jj <ESC>
+
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
@@ -171,6 +196,7 @@ if filereadable(".vimrc.local")
 endif
 
 " Use Ack instead of Grep when available
+nnoremap <leader>a :Ack
 if executable("ack")
   set grepprg=ack\ -H\ --nogroup\ --nocolor\ --ignore-dir=tmp\ --ignore-dir=coverage
 endif
@@ -184,12 +210,16 @@ else
   highlight Normal ctermbg=Black
 endif
 
+" Font
+set guifont=Monaco:h18
+
 " Numbers
 set number
 set numberwidth=5
 
 set showmatch
 set showmode
+
 " Snippets are activated by Shift+Tab
 let g:snippetsEmu_key = "<S-Tab>"
 
@@ -247,16 +277,17 @@ endif "has("gui_macvim")
 " map Ctrl-b to php syntax checker
 map <C-B> :w !php -l<CR>
 
-" map arrows to move between buffers
-map <Up> :wincmd k<CR>
-map <Down> :wincmd j<CR>
-map <Right> :wincmd l<CR>
-map <Left> :wincmd h<CR>
-map <Leader>= :wincmd =<CR>
+"" map arrows to move between buffers
+"map <Up> :wincmd k<CR>
+"map <Down> :wincmd j<CR>
+"map <Right> :wincmd l<CR>
+"map <Left> :wincmd h<CR>
+"map <Leader>= :wincmd =<CR>
 
 " NERDTree settings
-let g:NERDTreeShowHidden=1
-map <C-R> :NERDTreeFind<CR>
+ let g:NERDTreeShowHidden=1
+ map <Leader>y :NERDTreeFind<CR>
+ map <Leader>n :NERDTree<CR>
 
 " fugitive.vim
 autocmd BufReadPost fugitive://* set bufhidden=delete " when opening a new fugitive buffer, close the old one
