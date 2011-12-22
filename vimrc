@@ -287,7 +287,7 @@ map <C-B> :w !php -l<CR>
 " NERDTree settings
  let g:NERDTreeShowHidden=1
  map <Leader>y :NERDTreeFind<CR>
- map <Leader>n :NERDTree<CR>
+ map <Leader>n :NERDTreeToggle<CR>
 
 " fugitive.vim
 autocmd BufReadPost fugitive://* set bufhidden=delete " when opening a new fugitive buffer, close the old one
