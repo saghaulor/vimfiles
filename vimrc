@@ -206,7 +206,7 @@ set background=dark
 if has("gui_running")
   colorscheme macvim
 else
-  colorscheme solarized
+  colorscheme nightflight
   highlight Normal ctermbg=Black
 endif
 
