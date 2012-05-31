@@ -204,10 +204,10 @@ endif
 " Color scheme
 set background=dark
 if has("gui_running")
-  colorscheme macvim
+  colorscheme solarized
 else
-  colorscheme nightflight
-  highlight Normal ctermbg=Black
+  colorscheme solarized
+  "highlight Normal ctermbg=Black
 endif
 
 " Font
