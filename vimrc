@@ -302,3 +302,9 @@ let g:gist_show_privates           = 1
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 command! Markdown :!bluecloth % > %:t:r.html
 map <Leader>dc :Markdown<CR>
+
+" Supposedly updates the buffer when the file changes
+set autoread
+
+" For vim-slime & tmux
+let g:slime_target = "tmux"
