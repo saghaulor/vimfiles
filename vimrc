@@ -310,3 +310,12 @@ set colorcolumn=80
 
 " For vim-slime & tmux
 let g:slime_target = "tmux"
+
+" Send more characters for redraws
+set ttyfast
+
+" Enable mouse use in all modes
+set mouse=a
+
+" Set terminal for mouse codes
+set ttymouse=xterm2
