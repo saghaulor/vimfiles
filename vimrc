@@ -306,5 +306,7 @@ map <Leader>dc :Markdown<CR>
 " Supposedly updates the buffer when the file changes
 set autoread
 
+set colorcolumn=80
+
 " For vim-slime & tmux
 let g:slime_target = "tmux"
