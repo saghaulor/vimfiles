@@ -12,7 +12,7 @@ To add new plugins do the following:
 
 To remove plugins do the following:
 
-(As per http://stackoverflow.com/a/1260982)
-Delete the relevant section from the .gitmodules file
-Delete the relevant section from .git/config.
+(As per http://stackoverflow.com/a/1260982)  
+Delete the relevant section from the .gitmodules file  
+Delete the relevant section from .git/config.  
 Run git rm --cached path_to_submodule (no trailing slash)
