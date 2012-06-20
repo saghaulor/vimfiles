@@ -121,23 +121,6 @@ let mapleader = ","
 " Edit the README_FOR_APP (makes :R commands work)
 map <Leader>R :e doc/README_FOR_APP<CR>
 
-" Leader shortcuts for Rails commands
-map <Leader>m :Rmodel<CR> 
-map <Leader>c :Rcontroller<CR>
-map <Leader>v :Rview<CR>
-map <Leader>u :Runittest<CR>
-" map <Leader>f :Rfunctionaltest<CR>
-map <Leader>tm :RTmodel<CR>
-map <Leader>tc :RTcontroller<CR>
-map <Leader>tv :RTview<CR>
-map <Leader>tu :RTunittest<CR>
-map <Leader>tf :RTfunctionaltest<CR>
-map <Leader>sm :RSmodel<CR>
-map <Leader>sc :RScontroller<CR>
-map <Leader>sv :RSview<CR>
-map <Leader>su :RSunittest<CR>
-map <Leader>sf :RSfunctionaltest<CR>
-
 " Leader shortcuts for fuf
 map <Leader>ff :FufFile<CR>
 map <Leader>fb :FufBuffer<CR>
@@ -182,10 +165,6 @@ imap <C-F> <C-R>=expand("%")<CR>
 imap <Tab> <C-N>
 
 imap <C-L> <Space>=><Space>
-
-" Edit routes
-command! Rroutes :e config/routes.rb
-command! Rschema :e db/schema.rb
 
 " Local config
 if filereadable(".vimrc.local")
@@ -236,39 +215,6 @@ let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
 set tags=./tags;
 
 let g:fuf_splitPathMatching=1
-
-" Open URL
-command -bar -nargs=1 OpenURL :!open <args>
-function! OpenURL()
-  let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
-  echo s:uri
-  if s:uri != ""
-	  exec "!open \"" . s:uri . "\""
-  else
-	  echo "No URI found in line."
-  endif
-endfunction
-map <Leader>w :call OpenURL()<CR>
-
-" macvim-specifics
-if has("gui_macvim")
-  set transparency=2
-  set guioptions=aAce
-  highlight StatusLine guifg=Orange
-  map <D-1> :tabn 1<CR>
-  map <D-2> :tabn 2<CR>
-  map <D-3> :tabn 3<CR>
-  map <D-4> :tabn 4<CR>
-  map <D-5> :tabn 5<CR>
-  map <D-6> :tabn 6<CR>
-  map <D-7> :tabn 7<CR>
-  map <D-8> :tabn 8<CR>
-  map <D-9> :tabn 9<CR>
-  map <D-M-Right> :tabnext<CR>
-  map <D-M-Left> :tabprevious<CR>
-
-  set fuopt+=maxhorz " expand to the full screen width when entering fullscreen mode
-endif "has("gui_macvim")
 
 " map Ctrl-b to php syntax checker
 map <C-B> :w !php -l<CR>
