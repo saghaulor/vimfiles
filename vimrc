@@ -183,9 +183,6 @@ imap <Tab> <C-N>
 
 imap <C-L> <Space>=><Space>
 
-" Display extra whitespace
-" set list listchars=tab:»·,trail:·
-
 " Edit routes
 command! Rroutes :e config/routes.rb
 command! Rschema :e db/schema.rb
@@ -233,7 +230,6 @@ set complete=.,t
 set ignorecase
 set smartcase
 
-
 " Tags
 let g:Tlist_Use_Right_Window=1
 let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
@@ -276,13 +272,6 @@ endif "has("gui_macvim")
 
 " map Ctrl-b to php syntax checker
 map <C-B> :w !php -l<CR>
-
-"" map arrows to move between buffers
-"map <Up> :wincmd k<CR>
-"map <Down> :wincmd j<CR>
-"map <Right> :wincmd l<CR>
-"map <Left> :wincmd h<CR>
-"map <Leader>= :wincmd =<CR>
 
 " NERDTree settings
  let g:NERDTreeShowHidden=1
