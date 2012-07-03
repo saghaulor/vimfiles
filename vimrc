@@ -2,14 +2,7 @@
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 
-" based on http://github.com/jferris/config_files/blob/master/vimrc
-
-" Use Vim settings, rather then Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
-
-" per http://stevelosh.com/blog/2010/09/coming-home-to-vim/#making-vim-more-useful
-set modelines=0
+"set modelines=0
 set relativenumber
 set undofile
 nnoremap / /\v
@@ -254,3 +247,6 @@ set mouse=a
 
 " Set terminal for mouse codes
 set ttymouse=xterm2
+
+" Toggle Numbers.vim
+nnoremap <F3> :NumbersToggle<CR>
