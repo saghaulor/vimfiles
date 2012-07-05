@@ -10,12 +10,6 @@
 [submodule "bundle/zencoding"]
 	path = bundle/zencoding
 	url = https://github.com/mattn/zencoding-vim.git
-[submodule "bundle/tcomment"]
-	path = bundle/tcomment
-	url = https://github.com/vim-scripts/tComment.git
-[submodule "bundle/peepopen"]
-	path = bundle/peepopen
-	url = https://github.com/shemerey/vim-peepopen.git
 [submodule "bundle/nerdcommenter"]
 	path = bundle/nerdcommenter
 	url = https://github.com/scrooloose/nerdcommenter.git
