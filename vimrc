@@ -10,8 +10,8 @@ vnoremap / /\v
 set gdefault
 nnoremap <tab> %
 vnoremap <tab> %
-set list
-set listchars=tab:▸\ ,eol:¬
+"set list
+"set listchars=tab:▸\ ,eol:¬
 nnoremap <up> <nop>
 nnoremap <down> <nop>
 nnoremap <left> <nop>
@@ -27,7 +27,7 @@ au FocusLost * :wa
 inoremap jj <ESC>
 
 " allow backspacing over everything in insert mode
-set backspace=indent,eol,start
+"set backspace=indent,eol,start
 
 set noswapfile
 set nobackup
