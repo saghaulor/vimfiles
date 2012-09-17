@@ -76,6 +76,8 @@ if has("autocmd")
   augroup vimrcEx
   au!
 
+  au FileType xml exe ":silent 1,$!xmllint --format --recover - 2>/dev/null"
+
   " For all text files set 'textwidth' to 78 characters.
   " autocmd FileType text setlocal textwidth=78
 
