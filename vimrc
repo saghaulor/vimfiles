@@ -184,6 +184,9 @@ endif
 
 " Font
 set guifont=Monaco:h18
+" Remove side scrollbars
+set guioptions-=L
+set guioptions-=r
 
 " Numbers
 set number
