@@ -2,7 +2,6 @@
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 
-"set modelines=0
 set relativenumber
 set undofile
 nnoremap / /\v
@@ -10,8 +9,6 @@ vnoremap / /\v
 set gdefault
 nnoremap <tab> %
 vnoremap <tab> %
-"set list
-"set listchars=tab:▸\ ,eol:¬
 nnoremap <up> <nop>
 nnoremap <down> <nop>
 nnoremap <left> <nop>
@@ -26,8 +23,12 @@ nnoremap ; :
 au FocusLost * :wa
 inoremap jj <ESC>
 
-" allow backspacing over everything in insert mode
+"" Things I have previously used
+"" allow backspacing over everything in insert mode
 "set backspace=indent,eol,start
+"set list
+"set listchars=tab:▸\ ,eol:¬ "show tabs and line endings
+"set modelines=0 "disabled for security
 
 set noswapfile
 set nobackup
@@ -211,9 +212,6 @@ set tags=./tags;
 
 let g:fuf_splitPathMatching=1
 
-" map Ctrl-b to php syntax checker
-map <C-B> :w !php -l<CR>
-
 " NERDTree settings
  let g:NERDTreeShowHidden=1
  map <Leader>y :NERDTreeFind<CR>
@@ -237,6 +235,7 @@ map <Leader>dc :Markdown<CR>
 set autoread
 
 set colorcolumn=80
+set t_Co=256
 
 " For vim-slime & tmux
 let g:slime_target = "tmux"
