@@ -175,9 +175,9 @@ endif
 " Color scheme
 set background=dark
 if has("gui_running")
-  colorscheme solarized
+  colorscheme base16-monokai
 else
-  colorscheme solarized
+  colorscheme base16-monokai
   "highlight Normal ctermbg=Black
 endif
 
