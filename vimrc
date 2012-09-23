@@ -254,3 +254,16 @@ set ttymouse=xterm2
 
 " Toggle Numbers.vim
 nnoremap <F3> :NumbersToggle<CR>
+
+" Tagbar
+nmap <F8> :TagbarToggle<CR>
+let g:tagbar_type_ruby = {
+    \ 'kinds' : [
+        \ 'm:modules',
+        \ 'c:classes',
+        \ 'd:describes',
+        \ 'C:contexts',
+        \ 'f:methods',
+        \ 'F:singleton methods'
+    \ ]
+\ }
