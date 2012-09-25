@@ -5,7 +5,7 @@ set antialias
 set guioptions-=L
 set guioptions-=r
 " Remove the menubar
-set guioptions-=t
+set guioptions-=m
 " Fullscreen all the time
 set fullscreen
 " Remove tabs
