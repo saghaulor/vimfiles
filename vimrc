@@ -37,7 +37,7 @@ set history=50		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
 set incsearch		" do incremental searching
-
+set fileencoding=utf-8
 " Don't use Ex mode, use Q for formatting
 map Q gq
 
@@ -175,18 +175,7 @@ endif
 
 " Color scheme
 set background=dark
-if has("gui_running")
-  colorscheme base16-monokai
-else
-  colorscheme base16-monokai
-  "highlight Normal ctermbg=Black
-endif
-
-" Font
-set guifont=Monaco:h18
-" Remove side scrollbars
-set guioptions-=L
-set guioptions-=r
+colorscheme base16-monokai
 
 " Numbers
 set number
@@ -267,3 +256,7 @@ let g:tagbar_type_ruby = {
         \ 'F:singleton methods'
     \ ]
 \ }
+
+" Macros
+"  Convert Windows formatted files to Unix
+let @w=':e ++ff=mac:set ff=unix:w'
