@@ -76,9 +76,6 @@
 [submodule "bundle/scss-syntax"]
 	path = bundle/scss-syntax
 	url = git://github.com/cakebaker/scss-syntax.vim.git
-[submodule "bundle/vim-slime"]
-	path = bundle/vim-slime
-	url = git://github.com/jpalardy/vim-slime.git
 [submodule "/Users/stephenaghaulor/.vim/bundle/numbers"]
 	path = bundle/numbers
 	url = git://github.com/myusuf3/numbers.vim.git
@@ -97,3 +94,6 @@
 [submodule "bundle/vim-pathogen"]
 	path = bundle/vim-pathogen
 	url = git://github.com/tpope/vim-pathogen.git
+[submodule "bundle/vim-surround"]
+	path = bundle/vim-surround
+	url = https://github.com/tpope/vim-surround.git
