@@ -23,6 +23,11 @@ nnoremap k gk
 nnoremap ; :
 au FocusLost * :wa
 inoremap jj <ESC>
+"set paste
+" Copy from visual mode
+vnoremap <leader>y :w !pbcopy<cr><cr>
+" Vim yank register to system clipboard
+nnoremap <leader>j :call system("pbcopy", getreg(""))<cr>
 
 "" Things I have previously used
 "" allow backspacing over everything in insert mode
@@ -96,6 +101,7 @@ if has("autocmd")
 
   augroup END
 
+  autocmd! BufNewFile,BufRead *.pde setlocal ft=arduino
 else
 
   set autoindent		" always set autoindenting on
@@ -180,7 +186,7 @@ colorscheme base16-monokai
 
 " Numbers
 set number
-set numberwidth=5
+set numberwidth=1
 
 set showmatch
 set showmode
@@ -258,6 +264,23 @@ let g:tagbar_type_ruby = {
     \ ]
 \ }
 
+" This ain't your mother's house so keep it clean.
+if isdirectory(expand('~/.cache/vim'))
+  if &directory =~# '^\.,'
+    set directory^=~/.cache/vim/swap//
+  endif
+  if &backupdir =~# '^\.,'
+    set backupdir^=~/.cache/vim/backup//
+  endif
+  if exists('+undodir') && &undodir =~# '^\.\%(,\|$\)'
+    set undodir^=~/.cache/vim/undo//
+  endif
+endif
+if exists('+undofile')
+  set undofile
+endif
+
 " Macros
-"  Convert Windows formatted files to Unix
-let @w=':e ++ff=mac:set ff=unix:w'
+"  Convert Mac formatted files to Unix
+let @m=':e ++ff=mac:set ff=unix'
+"  Convert a column into a row
