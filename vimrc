@@ -1,41 +1,17 @@
 " setup pathogen
 runtime bundle/vim-pathogen/autoload/pathogen.vim
-call pathogen#runtime_append_all_bundles()
+call pathogen#incubate()
 call pathogen#helptags()
 
+" Vim interface
 set relativenumber
+" Numbers
+set number
+set numberwidth=1
+set showmatch
+set showmode
 set undofile
-nnoremap / /\v
-vnoremap / /\v
 set gdefault
-nnoremap <tab> %
-vnoremap <tab> %
-nnoremap <up> <nop>
-nnoremap <down> <nop>
-nnoremap <left> <nop>
-nnoremap <right> <nop>
-inoremap <up> <nop>
-inoremap <down> <nop>
-inoremap <left> <nop>
-inoremap <right> <nop>
-nnoremap j gj
-nnoremap k gk
-nnoremap ; :
-au FocusLost * :wa
-inoremap jj <ESC>
-"set paste
-" Copy from visual mode
-vnoremap <leader>y :w !pbcopy<cr><cr>
-" Vim yank register to system clipboard
-nnoremap <leader>j :call system("pbcopy", getreg(""))<cr>
-
-"" Things I have previously used
-"" allow backspacing over everything in insert mode
-"set backspace=indent,eol,start
-"set list
-"set listchars=tab:▸\ ,eol:¬ "show tabs and line endings
-"set modelines=0 "disabled for security
-
 set noswapfile
 set nobackup
 set nowritebackup
@@ -46,10 +22,61 @@ set incsearch		" do incremental searching
 set fileencoding=utf-8
 " Don't use Ex mode, use Q for formatting
 map Q gq
+" Switch wrap off for everything
+set nowrap
+" Tab completion options
+" (only complete to the longest unambiguous match, and show a menu)
+set completeopt=longest,menu
+set wildmode=list:longest,list:full
+set complete=.,t
+" Supposedly updates the buffer when the file changes
+set autoread
+" case only matters with mixed case expressions
+set ignorecase
+set smartcase
+" Send more characters for redraws
+set ttyfast
+" Enable mouse use in all modes
+set mouse=a
+" Set terminal for mouse codes
+set ttymouse=xterm2
+" Things I have previously used
+" allow backspacing over everything in insert mode
+"set backspace=indent,eol,start
+"set list
+"set listchars=tab:▸\ ,eol:¬ "show tabs and line endings
+"set modelines=0 "disabled for security
+"set paste
 
-" This is an alternative that also works in block mode, but the deleted
-" text is lost and it only works for putting the current register.
-"vnoremap p "_dp
+" Vim keybindings
+nnoremap / /\v
+vnoremap / /\v
+nnoremap <tab> %
+vnoremap <tab> %
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+nnoremap j gj
+nnoremap k gk
+nnoremap ; :
+inoremap jj <ESC>
+" \ is the leader character
+let mapleader = ","
+" Copy from visual mode
+vnoremap <leader>y :w !pbcopy<cr><cr>
+" Vim yank register to system clipboard
+nnoremap <leader>j :call system("pbcopy", getreg(""))<cr>
+" Leader shortcuts for fuf
+map <Leader>ff :FufFile<CR>
+map <Leader>fb :FufBuffer<CR>
+" Hide search highlighting
+map <Leader>h :set invhls <CR>
+" Maps autocomplete to tab
+imap <Tab> <C-N>
+" Duplicate a selection
+" Visual mode: D
+"vmap D y'>p
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
@@ -57,9 +84,6 @@ if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
   syntax on
   set hlsearch
 endif
-
-" Switch wrap off for everything
-set nowrap
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
@@ -70,8 +94,14 @@ if has("autocmd")
   filetype plugin indent on
   set ofu=syntaxcomplete#Complete
 
+  " Autosave when window focus is lost
+  au FocusLost * :wa
+
   " Set File type to 'text' for files ending in .txt
   autocmd BufNewFile,BufRead *.txt setfiletype text
+
+  " fugitive.vim
+  autocmd BufReadPost fugitive://* set bufhidden=delete " when opening a new fugitive buffer, close the old one
 
   " Enable soft-wrapping for text files
   autocmd FileType text,markdown,html,xhtml,eruby setlocal wrap linebreak nolist
@@ -84,6 +114,9 @@ if has("autocmd")
   au!
 
   au FileType xml exe ":silent 1,$!xmllint --format --recover - 2>/dev/null"
+
+  "au BufReadPre * setlocal foldmethod=indent
+  "au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
 
   " For all text files set 'textwidth' to 78 characters.
   " autocmd FileType text setlocal textwidth=78
@@ -102,6 +135,10 @@ if has("autocmd")
   augroup END
 
   autocmd! BufNewFile,BufRead *.pde setlocal ft=arduino
+
+  " For Haml
+  au! BufRead,BufNewFile *.haml setfiletype haml
+
 else
 
   set autoindent		" always set autoindenting on
@@ -117,55 +154,6 @@ set expandtab
 set laststatus=2
 " set statusline="%{fugitive#statusline()}"
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
-
-" \ is the leader character
-let mapleader = ","
-
-" Edit the README_FOR_APP (makes :R commands work)
-map <Leader>R :e doc/README_FOR_APP<CR>
-
-" Leader shortcuts for fuf
-map <Leader>ff :FufFile<CR>
-map <Leader>fb :FufBuffer<CR>
-
-" Hide search highlighting
-map <Leader>h :set invhls <CR>
-
-" Opens an edit command with the path of the currently edited file filled in
-" Normal mode: <Leader>e
-map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-
-" Opens a tab edit command with the path of the currently edited file filled in
-" Normal mode: <Leader>t
-map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
-
-" Move lines up and down
-map <C-J> :m +1 <CR>
-map <C-K> :m -2 <CR>
-
-" Inserts the path of the currently edited file into a command
-" Command mode: Ctrl+P
-cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
-
-" Duplicate a selection
-" Visual mode: D
-vmap D y'>p
-
-" Press Shift+P while in visual mode to replace the selection without
-" overwriting the default register
-vmap P p :call setreg('"', getreg('0')) <CR>
-
-" For Haml
-au! BufRead,BufNewFile *.haml         setfiletype haml
-
-" No Help, please
-nmap <F1> <Esc>
-
-" Press ^F from insert mode to insert the current file name
-imap <C-F> <C-R>=expand("%")<CR>
-
-" Maps autocomplete to tab
-imap <Tab> <C-N>
 
 imap <C-L> <Space>=><Space>
 
@@ -183,31 +171,11 @@ endif
 " Color scheme
 set background=dark
 colorscheme base16-monokai
-
-" Numbers
-set number
-set numberwidth=1
-
-set showmatch
-set showmode
+set colorcolumn=80
+set t_Co=256
 
 " Snippets are activated by Shift+Tab
 let g:snippetsEmu_key = "<S-Tab>"
-
-" Tab completion options
-" (only complete to the longest unambiguous match, and show a menu)
-set completeopt=longest,menu
-set wildmode=list:longest,list:full
-set complete=.,t
-
-" case only matters with mixed case expressions
-set ignorecase
-set smartcase
-
-" Tags
-let g:Tlist_Use_Right_Window=1
-let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
-set tags=./tags;
 
 let g:fuf_splitPathMatching=1
 
@@ -215,9 +183,6 @@ let g:fuf_splitPathMatching=1
  let g:NERDTreeShowHidden=1
  map <Leader>y :NERDTreeFind<CR>
  map <Leader>n :NERDTreeToggle<CR>
-
-" fugitive.vim
-autocmd BufReadPost fugitive://* set bufhidden=delete " when opening a new fugitive buffer, close the old one
 
 " gist.vim
 let g:gist_clip_command            = 'pbcopy'
@@ -230,27 +195,16 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 command! Markdown :!bluecloth % > %:t:r.html
 map <Leader>dc :Markdown<CR>
 
-" Supposedly updates the buffer when the file changes
-set autoread
-
-set colorcolumn=80
-set t_Co=256
-
 " For vim-slime & tmux
 let g:slime_target = "tmux"
-
-" Send more characters for redraws
-set ttyfast
-
-" Enable mouse use in all modes
-set mouse=a
-
-" Set terminal for mouse codes
-set ttymouse=xterm2
 
 " Toggle Numbers.vim
 nnoremap <F3> :NumbersToggle<CR>
 
+" Tags
+let g:Tlist_Use_Right_Window=1
+let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
+set tags=./tags;
 " Tagbar
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_type_ruby = {
@@ -284,3 +238,7 @@ endif
 "  Convert Mac formatted files to Unix
 let @m=':e ++ff=mac:set ff=unix'
 "  Convert a column into a row
+"
+match ErrorMsg '\s\+$'
+nnoremap <Leader>rtw :%s/\s\+$//e<CR>
+set clipboard=unnamed
