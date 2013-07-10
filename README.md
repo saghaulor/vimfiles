@@ -3,6 +3,7 @@ Setup
     $ git clone https://github.com/saghaulor/vimfiles.git $HOME/.vim
     $ cd $HOME/.vim && git submodule init && git submodule update
     $ ln -s $HOME/.vim/vimrc $HOME/.vimrc
+    $ ln -s $HOME/.vim/gvimrc $HOME/.gvimrc
 
 To install ctags for ruby and javascript code parsing support
     $ git clone https://github.com/fishman/ctags.git ctags
@@ -21,9 +22,9 @@ To add new plugins do the following:
 
 To remove plugins do the following:
 
-(As per http://stackoverflow.com/a/1260982)  
-Delete the relevant section from the .gitmodules file  
-Delete the relevant section from .git/config.  
+(As per http://stackoverflow.com/a/1260982)
+Delete the relevant section from the .gitmodules file
+Delete the relevant section from .git/config.
 Run git rm --cached path_to_submodule (no trailing slash)
 
 
