@@ -72,7 +72,7 @@
 	url = git://github.com/scrooloose/nerdtree.git
 [submodule "bundle/vim-slim"]
 	path = bundle/vim-slim
-	url = git://github.com/bbommarito/vim-slim.git
+	url = git@github.com:slim-template/vim-slim.git
 [submodule "bundle/scss-syntax"]
 	path = bundle/scss-syntax
 	url = git://github.com/cakebaker/scss-syntax.vim.git
