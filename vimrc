@@ -1,6 +1,6 @@
 " setup pathogen
 runtime bundle/vim-pathogen/autoload/pathogen.vim
-call pathogen#incubate()
+call pathogen#infect()
 call pathogen#helptags()
 
 " Vim interface
