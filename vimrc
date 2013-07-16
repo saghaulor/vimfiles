@@ -1,7 +1,52 @@
-" setup pathogen
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-call pathogen#infect()
-call pathogen#helptags()
+set nocompatible               " be iMproved
+filetype off                   " required!
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" Bundles
+Bundle 'gmarik/vundle'
+Bundle 'mileszs/ack.vim'
+Bundle 'chriskempson/base16-vim'
+Bundle 'kien/ctrlp.vim'
+Bundle 'tpope/vim-cucumber'
+Bundle 'Raimondi/delimitMate'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-haml'
+Bundle 'pangloss/vim-javascript'
+Bundle 'tpope/vim-markdown'
+Bundle 'Shougo/neocomplcache'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'scrooloose/nerdtree'
+Bundle 'myusuf3/numbers.vim'
+Bundle 'tpope/vim-rails'
+Bundle 'scrooloose/syntastic'
+Bundle 'godlygeek/tabular'
+if executable('ctags')
+  Bundle 'majutsushi/tagbar'
+endif
+Bundle 'vim-scripts/taglist.vim'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'basepi/vim-conque'
+Bundle 'tpope/vim-endwise'
+Bundle 'Lokaltog/vim-powerline'
+"Bundle 'Lokaltog/powerline' " beta unstable version
+Bundle 'slim-template/vim-slim'
+Bundle 'tpope/vim-surround'
+
+" Bundles that I don't think I use.
+"Bundle 'L9'
+"Bundle 'bufexplorer'
+"Bundle 'bufkill'
+"Bundle 'gregsexton/gitv'
+"Bundle 'nginx'
+"Bundle 'cakebaker/scss-syntax.vim'
+"Bundle 'garbas/vim-snipmate'
+"Bundle 'altercation/vim-colors-solarized'
+"Bundle 'vim-session'
+"Bundle 'vim-rspec'
+"Bundle 'zencoding'
 
 " Vim interface
 set relativenumber
