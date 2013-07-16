@@ -40,9 +40,9 @@ set ttyfast
 set mouse=a
 " Set terminal for mouse codes
 set ttymouse=xterm2
+set backspace=indent,eol,start
 " Things I have previously used
 " allow backspacing over everything in insert mode
-"set backspace=indent,eol,start
 "set list
 "set listchars=tab:▸\ ,eol:¬ "show tabs and line endings
 "set modelines=0 "disabled for security
