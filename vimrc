@@ -295,6 +295,11 @@ let g:tagbar_type_ruby = {
     \ ]
 \ }
 
+" Ctrlp
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.gz     " MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+
 " This ain't your mother's house so keep it clean.
 if isdirectory(expand('~/.cache/vim'))
   if &directory =~# '^\.,'
