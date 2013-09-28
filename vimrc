@@ -206,7 +206,7 @@ set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 imap <C-L> <Space>=><Space>
 
 " Strip trailing whitespace
-nnoremap <Leader>rws :%s/\s\+$//e<CR>
+nnoremap <Leader>r<Space> :%s/\s\+$//e<CR>
 
 " Local config
 if filereadable(".vimrc.local")
