@@ -3,22 +3,23 @@ filetype off                   " required!
 
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
+let g:ruby_path = system('echo $HOME/.rbenv/shims')
 
 " Bundles
 Bundle 'gmarik/vundle'
-Bundle 'mileszs/ack.vim'
+Bundle 'rking/ag.vim'
 Bundle 'chriskempson/base16-vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'tpope/vim-cucumber'
 Bundle 'Raimondi/delimitMate'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'tpope/vim-fugitive'
+Bundle 'gregsexton/gitv'
 Bundle 'tpope/vim-haml'
 Bundle 'pangloss/vim-javascript'
 Bundle 'tpope/vim-markdown'
 Bundle 'Shougo/neocomplcache'
 Bundle 'scrooloose/nerdcommenter'
-Bundle 'scrooloose/nerdtree'
 Bundle 'myusuf3/numbers.vim'
 Bundle 'tpope/vim-rails'
 Bundle 'scrooloose/syntastic'
@@ -31,26 +32,14 @@ Bundle 'kchmck/vim-coffee-script'
 Bundle 'basepi/vim-conque'
 Bundle 'tpope/vim-endwise'
 Bundle 'digitaltoad/vim-jade'
+Bundle 'groenewege/vim-less'
 Bundle 'Lokaltog/vim-powerline'
-"Bundle 'Lokaltog/powerline' " beta unstable version
 Bundle 'slim-template/vim-slim'
 Bundle 'tpope/vim-surround'
 
-" Bundles that I don't think I use.
-"Bundle 'L9'
-"Bundle 'bufexplorer'
-"Bundle 'bufkill'
-"Bundle 'gregsexton/gitv'
-"Bundle 'nginx'
-"Bundle 'cakebaker/scss-syntax.vim'
-"Bundle 'garbas/vim-snipmate'
-"Bundle 'altercation/vim-colors-solarized'
-"Bundle 'vim-session'
-"Bundle 'skwp/vim-rspec'
-"Bundle 'thoughtbot/vim-rspec'
-"Bundle 'zencoding'
-
 " Vim interface
+" Copy/Pasting (should be using the `"+p` command in normal mode; it handles indenting correctly)
+set pastetoggle=<F2>
 if has ('x') && has ('gui') " On Linux use + register for copy-paste
   set clipboard=unnamedplus
 elseif has ('gui')          " On mac and Windows, use * register for copy-paste
@@ -95,6 +84,7 @@ set smartcase
 set ttyfast
 " Enable mouse use in all modes
 set mouse=a
+set mousehide
 " Set terminal for mouse codes
 set ttymouse=xterm2
 " allow backspacing over everything in insert mode
@@ -103,7 +93,6 @@ set backspace=indent,eol,start
 "set list
 "set listchars=tab:▸\ ,eol:¬ "show tabs and line endings
 "set modelines=0 "disabled for security
-set pastetoggle=<F2>
 
 " Vim keybindings
 nnoremap / /\v
@@ -114,26 +103,18 @@ nnoremap <up> <nop>
 nnoremap <down> <nop>
 nnoremap <left> <nop>
 nnoremap <right> <nop>
+" Map the arrow keys to be based on display lines, not physical lines"
 nnoremap j gj
 nnoremap k gk
 nnoremap ; :
 inoremap jj <ESC>
 " \ is the leader character
 let mapleader = ","
-" Copy from visual mode
-vnoremap <Leader>y :w !pbcopy<CR><CR>
-" Vim yank register to system clipboard
-nnoremap <Leader>j :call system("pbcopy", getreg(""))<CR>
-" Leader shortcuts for fuf
-"map <Leader>ff :FufFile<CR>
-"map <Leader>fb :FufBuffer<CR>
 " Hide search highlighting
 map <Leader>h :set invhls <CR>
 " Maps autocomplete to tab
 imap <Tab> <C-N>
 " Duplicate a selection
-" Visual mode: D
-"vmap D y'>p
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
@@ -150,11 +131,13 @@ if has("autocmd")
 
   augroup FTSpecificSettings
     au!
+    au BufNewFile,BufRead {Gemfile,Rakefile,Vagrantfile,Thorfile,Procfile,Guardfile,config.ru,*.rake} set ft=ruby
     au BufNewFile,BufRead *.pde setlocal ft=arduino
     au BufNewFile,BufRead *.txt set filetype=text
     au BufNewFile,BufRead *.haml set filetype=haml
     au BufNewFile,BufRead *.json set filetype=json
     au BufNewFile,BufRead *.md set filetype=markdown
+    au BufNewFile,BufRead *.coffee set filetype=coffee
     " Enable soft-wrapping for text files
     au FileType text,markdown,html,xhtml,eruby setlocal wrap linebreak nolist
     if executable("xmllint")
@@ -230,10 +213,14 @@ if filereadable(".vimrc.local")
   source .vimrc.local
 endif
 
-" Use Ack instead of Grep when available
-nnoremap <leader>a :Ack
-if executable("ack")
-  set grepprg=ack\ -H\ --nogroup\ --nocolor\ --ignore-dir=tmp\ --ignore-dir=coverage
+" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
+nnoremap <leader>a :Ag
+if executable('ag')
+  " Use Ag over Grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
 " Color scheme
@@ -241,37 +228,6 @@ set background=dark
 colorscheme base16-monokai
 set colorcolumn=80
 set t_Co=256
-
-" Snippets are activated by Shift+Tab
-"let g:snippetsEmu_key = "<S-Tab>"
-
-"let g:fuf_splitPathMatching=1
-"nnoremap <silent> <leader>gs :Gstatus<CR>
-"nnoremap <silent> <leader>gd :Gdiff<CR>
-"nnoremap <silent> <leader>gc :Gcommit<CR>
-"nnoremap <silent> <leader>gb :Gblame<CR>
-"nnoremap <silent> <leader>gl
-":Glog<CR>
-"nnoremap <silent>
-"<leader>gp :Git push<CR>
-"nnoremap <silent>
-"<leader>gw
-":Gwrite<CR>:GitGutter<CR>
-"nnoremap
-"<silent>
-"<leader>gg
-":GitGutterToggle<CR>
-
-" NERDTree settings
-let g:NERDTreeShowHidden=1
-map <Leader>/ :NERDTreeFind<CR>
-map <Leader>n :NERDTreeToggle<CR>
-
-" gist.vim
-let g:gist_clip_command            = 'pbcopy'
-let g:gist_detect_filetype         = 1
-let g:gist_open_browser_after_post = 1
-let g:gist_show_privates           = 1
 
 " Markdown
 command! Markdown :!bluecloth % > %:t:r.html
@@ -296,9 +252,14 @@ let g:tagbar_type_ruby = {
 \ }
 
 " Ctrlp
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.gz     " MacOSX/Linux
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.gz " MacOSX/Linux
 set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrp_use_caching = 1
+let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
+let g:ctrlp_custom_ignore = { 'dir': '\v[\/]\.(git|hg|svn)|log|tmp$', 'file': '\.dat$|\.DS_Store$|.\.tmp' }
+let g:ctrlp_working_path_mode='ra'
+let g:ctrlp_cmd = 'CtrlPMixed'
 
 " This ain't your mother's house so keep it clean.
 if isdirectory(expand('~/.cache/vim'))
