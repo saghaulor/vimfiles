@@ -1,18 +1,8 @@
 Setup
 -----
-    $ git clone https://github.com/saghaulor/vimfiles.git $HOME/.vim
-    $ git clone https://github.com/gmarik/vundle.git $HOME./vim/bundle/vundle
-    $ ln -s $HOME/.vim/vimrc $HOME/.vimrc
-    $ ln -s $HOME/.vim/gvimrc $HOME/.gvimrc
-
-To install ctags for ruby and javascript code parsing support
-    $ git clone https://github.com/fishman/ctags.git ctags
-    $ cd ctags && ./configure
-    $ make
-    $ make install
-    $ git clone https://github.com/mozilla/doctorjs.git jsctags
-    $ cd jsctags && make install
-
+Download bootstrap.rb and run it. It will download the git repo and get to work. 
+You'll be rocking with a sensible but not too heavy vim setup in minutes.
+    $ ruby -e bootstrap.rb
 Notes
 -----
-jsctags requires nodejs
+This script will install my vim files including my vimrc to your homedir. Additionally, it will install exuberant ctags, and all the vim plugins that I use. If you have node.js installed it will also install jsctags.
