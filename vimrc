@@ -34,9 +34,9 @@ Bundle 'basepi/vim-conque'
 Bundle 'tpope/vim-endwise'
 Bundle 'digitaltoad/vim-jade'
 Bundle 'groenewege/vim-less'
-Bundle 'Lokaltog/vim-powerline'
 Bundle 'slim-template/vim-slim'
 Bundle 'tpope/vim-surround'
+Bundle 'bling/vim-airline'
 
 " Vim interface
 " Copy/Pasting (should be using the `"+p` command in normal mode; it handles indenting correctly)
@@ -283,6 +283,8 @@ let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_smart_case = 1
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
+" Airline the vimscript powerline replacement
+let g:airline_powerline_fonts = 1
 
 " Macros
 "  Convert Mac formatted files to Unix
