@@ -10,6 +10,7 @@ Bundle 'gmarik/vundle'
 Bundle 'rking/ag.vim'
 Bundle 'chriskempson/base16-vim'
 Bundle 'kien/ctrlp.vim'
+Bundle 'bling/vim-bufferline'
 Bundle 'tpope/vim-bundler'
 Bundle 'tpope/vim-cucumber'
 Bundle 'Raimondi/delimitMate'
@@ -90,9 +91,8 @@ set mousehide
 set ttymouse=xterm2
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
+
 " Things I have previously used
-"set list
-"set listchars=tab:▸\ ,eol:¬ "show tabs and line endings
 "set modelines=0 "disabled for security
 
 " Vim keybindings
@@ -206,9 +206,6 @@ set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 " What does this do?
 imap <C-L> <Space>=><Space>
 
-" Strip trailing whitespace
-nnoremap <Leader>r<Space> :%s/\s\+$//e<CR>
-
 " Local config
 if filereadable(".vimrc.local")
   source .vimrc.local
@@ -285,6 +282,13 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " Airline the vimscript powerline replacement
 let g:airline_powerline_fonts = 1
+
+" Show whitespace
+nnoremap <Leader>s<Space> :set list!<CR>
+"nnoremap <F5> :set list!<CR>
+set listchars=tab:▸\ ,eol:¬ "show tabs and line endings
+" Strip trailing whitespace
+nnoremap <Leader>r<Space> :%s/\s\+$//e<CR>
 
 " Macros
 "  Convert Mac formatted files to Unix
