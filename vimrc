@@ -21,7 +21,7 @@ Bundle 'gregsexton/gitv'
 Bundle 'tpope/vim-haml'
 Bundle 'pangloss/vim-javascript'
 Bundle 'tpope/vim-markdown'
-Bundle 'Shougo/neocomplete'
+Bundle 'Valloric/YouCompleteMe'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'myusuf3/numbers.vim'
 Bundle 'tpope/vim-rails'
@@ -148,21 +148,11 @@ if has("autocmd")
     "au BufRead,BufNewFile /usr/local/nginx/conf/* set ft=nginx autoindent
   augroup END
 
-  augroup Neocomplete
-    au!
-    " Enable omni completion.
-    au FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    au FileType python setlocal omnifunc=pythoncomplete#Complete
-    au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  augroup END
-
   " make Esc happen without waiting for timeoutlen (fixes Powerline delay)
   augroup FastEscape
     au!
     au InsertEnter * set timeoutlen=0
-    au InsertLeave * set timeoutlen=1000
+    au InsertLeave * set timeoutlen=100
   augroup END
 
   augroup Misc
@@ -271,14 +261,6 @@ endif
 if exists('+undofile')
   set undofile
 endif
-
-" For Neocomplete
-let g:acp_enableAtStartup = 0
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " Airline the vimscript powerline replacement
 let g:airline_powerline_fonts = 1
