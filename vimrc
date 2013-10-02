@@ -1,8 +1,9 @@
 set nocompatible               " be iMproved
 filetype off                   " required!
-
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
+filetype plugin indent on
+set ofu=syntaxcomplete#Complete
 let g:ruby_path = system('echo $HOME/.rbenv/shims')
 
 " Bundles
@@ -20,7 +21,7 @@ Bundle 'gregsexton/gitv'
 Bundle 'tpope/vim-haml'
 Bundle 'pangloss/vim-javascript'
 Bundle 'tpope/vim-markdown'
-Bundle 'Shougo/neocomplcache'
+Bundle 'Shougo/neocomplete'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'myusuf3/numbers.vim'
 Bundle 'tpope/vim-rails'
@@ -108,14 +109,16 @@ nnoremap <right> <nop>
 nnoremap j gj
 nnoremap k gk
 nnoremap ; :
-inoremap jj <ESC>
 " \ is the leader character
 let mapleader = ","
 " Hide search highlighting
 map <Leader>h :set invhls <CR>
 " Maps autocomplete to tab
 imap <Tab> <C-N>
-" Duplicate a selection
+
+" Buffer navigation
+nnoremap <C-n> :bnext<CR>
+nnoremap <C-b> :bprevious<CR>
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
@@ -123,9 +126,6 @@ if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
   syntax on
   set hlsearch
 endif
-
-filetype plugin indent on
-set ofu=syntaxcomplete#Complete
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
@@ -148,7 +148,7 @@ if has("autocmd")
     "au BufRead,BufNewFile /usr/local/nginx/conf/* set ft=nginx autoindent
   augroup END
 
-  augroup NeoCacheCompl
+  augroup Neocomplete
     au!
     " Enable omni completion.
     au FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -202,9 +202,6 @@ set autoindent		" always set autoindenting on
 set laststatus=2
 " set statusline="%{fugitive#statusline()}"
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
-
-" What does this do?
-imap <C-L> <Space>=><Space>
 
 " Local config
 if filereadable(".vimrc.local")
@@ -275,9 +272,12 @@ if exists('+undofile')
   set undofile
 endif
 
-" For NeoCacheCompl
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_smart_case = 1
+" For Neocomplete
+let g:acp_enableAtStartup = 0
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " Airline the vimscript powerline replacement
@@ -293,6 +293,5 @@ nnoremap <Leader>r<Space> :%s/\s\+$//e<CR>
 " Macros
 "  Convert Mac formatted files to Unix
 let @m=':e ++ff=mac:set ff=unix'
-"  Convert a column into a row
-"
+
 match ErrorMsg '\s\+$'
