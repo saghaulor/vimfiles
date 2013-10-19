@@ -29,7 +29,6 @@ Bundle 'scrooloose/syntastic'
 Bundle 'godlygeek/tabular'
 if executable('ctags')
   Bundle 'majutsushi/tagbar'
-  Bundle 'vim-scripts/taglist.vim'
 endif
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'basepi/vim-conque'
@@ -141,6 +140,7 @@ if has("autocmd")
     au BufNewFile,BufRead *.coffee set filetype=coffee
     " Enable soft-wrapping for text files
     au FileType text,markdown,html,xhtml,eruby setlocal wrap linebreak nolist
+    au FileType ruby,haml set re=1
     if executable("xmllint")
       au FileType xml exe ":silent 1,$!xmllint --format --recover - 2>/dev/null"
     end
@@ -218,11 +218,6 @@ set t_Co=256
 command! Markdown :!bluecloth % > %:t:r.html
 map <Leader>dc :Markdown<CR>
 
-" Tags
-let g:Tlist_Use_Right_Window=1
-let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
-set tags=./tags;
-
 " Tagbar
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_type_ruby = {
@@ -242,7 +237,7 @@ set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 let g:ctrp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
-let g:ctrlp_custom_ignore = { 'dir': '\v[\/]\.(git|hg|svn)|log|tmp$', 'file': '\.dat$|\.DS_Store$|.\.tmp' }
+let g:ctrlp_custom_ignore = { 'dir': '\v[\/]\.(git|hg|svn)$|log$|tmp$','file': '\.dat$|\.DS_Store$|.\.tmp$' }
 let g:ctrlp_working_path_mode='ra'
 let g:ctrlp_cmd = 'CtrlPMixed'
 
