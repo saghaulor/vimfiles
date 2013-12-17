@@ -35,16 +35,16 @@ puts "Copying .vimrc and .gvimrc to #{Dir.home}"
 ['vimrc', 'gvimrc'].map do |rc|
   rc_file = File.join(Dir.home, ".#{rc}")
   if File.exists? rc_file
-    FileUtils.mv(rc_file,  rc_file + '.orig')
+    FileUtils.mv(rc_file,  rc_file + ".orig.#{Time.now.to_i}")
   end
   File.symlink(File.join(vimdir, "#{rc}"), rc_file)
 end
 
 puts "Installing exuberant ctags"
-`brew install ctags`
+%x(brew install ctags)
 
 puts "Installing vim plugins with vundle"
-`vim +BundleInstall +qall`
+%x(vim +BundleInstall +qall)
 
 if which 'node'
   jsctags_repo =  'https://github.com/mozilla/doctorjs.git'
@@ -56,7 +56,16 @@ if which 'node'
   puts "Installing jsctags"
   FileUtils.chdir(src_dir) do
     git_clone(jsctags_repo, 'jsctags')
-    `make install`
+    %x(make install)
   end
 
+end
+
+you_complete_me = File.join(vimdir, 'bundle', 'YouCompleteMe')
+
+if Dir.exists? you_complete_me
+  FileUtils.chdir you_complete_me do
+    puts "Installing YouCompleteMe"
+    %x(sh install.sh --clang-completer)
+  end
 end
