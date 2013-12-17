@@ -230,6 +230,7 @@ let g:tagbar_type_ruby = {
         \ 'F:singleton methods'
     \ ]
 \ }
+nnoremap <silent> <Leader>b :TagbarToggle<CR>
 
 " Ctrlp
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.gz " MacOSX/Linux
@@ -238,8 +239,9 @@ let g:ctrp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
 let g:ctrlp_custom_ignore = { 'dir': '\v[\/]\.(git|hg|svn)$|log$|tmp$','file': '\.dat$|\.DS_Store$|.\.tmp$' }
-let g:ctrlp_working_path_mode='ra'
+let g:ctrlp_working_path_mode='rc'
 let g:ctrlp_cmd = 'CtrlPMixed'
+nnoremap <leader>. :CtrlPTag<cr>
 
 " This ain't your mother's house so keep it clean.
 if isdirectory(expand('~/.cache/vim'))
