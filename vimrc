@@ -1,52 +1,88 @@
-set nocompatible               " be iMproved
-filetype off                   " required!
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+if has('vim_starting')
+  set nocompatible               " Be iMproved
+  set runtimepath+=~/.vim/bundle/neobundle.vim/ " required!
+endif
+
+call neobundle#rc(expand('~/.vim/bundle/')) " required!
 filetype plugin indent on
 set ofu=syntaxcomplete#Complete
 let g:ruby_path = system('echo $HOME/.rbenv/shims')
 
 " Bundles
-Bundle 'gmarik/vundle'
-Bundle 'rking/ag.vim'
-Bundle 'chriskempson/base16-vim'
-Bundle 'kien/ctrlp.vim'
-Bundle 'bling/vim-bufferline'
-Bundle 'tpope/vim-bundler'
-Bundle 'tpope/vim-cucumber'
-Bundle 'Raimondi/delimitMate'
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'tpope/vim-fugitive'
-Bundle 'gregsexton/gitv'
-Bundle 'tpope/vim-haml'
-Bundle 'pangloss/vim-javascript'
-Bundle 'tpope/vim-markdown'
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'myusuf3/numbers.vim'
-Bundle 'tpope/vim-rails'
-Bundle 'scrooloose/syntastic'
-Bundle 'godlygeek/tabular'
+NeoBundleFetch 'Shougo/neobundle.vim'
+NeoBundle 'Shougo/vimproc', {
+      \ 'build' : {
+      \     'mac' : 'make -f make_mac.mak',
+      \     'unix' : 'make -f make_unix.mak',
+      \    },
+      \ }
+NeoBundle 'Shougo/unite.vim'
+" Wicked fast searching, a grep/ack replacement
+NeoBundle 'rking/ag.vim'
+" Colors
+NeoBundle 'chriskempson/base16-vim'
+" Fuzzy file opening
+NeoBundle 'kien/ctrlp.vim'
+" Buffers
+NeoBundle 'bling/vim-bufferline'
+NeoBundle 'bufexplorer.zip'
+" Syntax
+NeoBundleLazy 'tpope/vim-cucumber'
+NeoBundleLazy 'tpope/vim-haml'
+NeoBundleLazy 'tpope/vim-markdown'
+NeoBundle 'scrooloose/syntastic'
+NeoBundleLazy 'pangloss/vim-javascript'
+NeoBundleLazy 'groenewege/vim-less'
+NeoBundleLazy 'slim-template/vim-slim'
+NeoBundleLazy 'tpope/vim-rails'
+NeoBundleLazy 'kchmck/vim-coffee-script'
+NeoBundleLazy 'digitaltoad/vim-jade'
+" Movement
+NeoBundle 'Lokaltog/vim-easymotion'
+" Git
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'mattn/gist-vim'
+NeoBundle 'gregsexton/gitv'
+" Autocompletion
+NeoBundle 'Valloric/YouCompleteMe' , {
+            \ 'build' : {
+            \    'unix' : './install.sh --clang-completer --system-libclang'
+            \ },
+\ }
+NeoBundle 'Raimondi/delimitMate'
+NeoBundle 'tpope/vim-endwise'
+" Easy code commenting
+NeoBundle 'scrooloose/nerdcommenter'
+" Easy relative numbering
+NeoBundle 'myusuf3/numbers.vim'
+" Table formatting
+NeoBundleLazy 'godlygeek/tabular'
+" Ctags
+NeoBundle 'xolox/vim-easytags'
+NeoBundle 'xolox/vim-misc'
+NeoBundle 'tpope/vim-bundler'
 if executable('ctags')
-  Bundle 'majutsushi/tagbar'
+  NeoBundle 'majutsushi/tagbar'
 endif
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'basepi/vim-conque'
-Bundle 'tpope/vim-endwise'
-Bundle 'digitaltoad/vim-jade'
-Bundle 'groenewege/vim-less'
-Bundle 'slim-template/vim-slim'
-Bundle 'tpope/vim-surround'
-Bundle 'bling/vim-airline'
+" Terminal commands in vim
+"Bundle 'basepi/vim-conque'
+NeoBundle 'tpope/vim-surround'
+" Status bar bling
+NeoBundle 'bling/vim-airline'
+NeoBundle 'mattn/webapi-vim'
+NeoBundleCheck
 
 " Vim interface
 " Copy/Pasting (should be using the `"+p` command in normal mode; it handles indenting correctly)
 set pastetoggle=<F2>
 if has ('x') && has ('gui') " On Linux use + register for copy-paste
-  set clipboard=unnamedplus
+  set clipboard+=unnamedplus
 elseif has ('gui')          " On mac and Windows, use * register for copy-paste
-  set clipboard=unnamed
+  set clipboard+=unnamed
 endif
+"if $TMUX == ''
+  "set clipboard+=unnamed
+"endif
 
 " Numbers
 set number
@@ -131,7 +167,7 @@ if has("autocmd")
 
   augroup FTSpecificSettings
     au!
-    au BufNewFile,BufRead {Gemfile,Rakefile,Vagrantfile,Thorfile,Procfile,Guardfile,config.ru,*.rake} set ft=ruby
+    au BufNewFile,BufRead {Gemfile.*,Rakefile,Vagrantfile,Thorfile,Procfile.*,Guardfile.*,config.ru,*.rake} set ft=ruby
     au BufNewFile,BufRead *.pde setlocal ft=arduino
     au BufNewFile,BufRead *.txt set filetype=text
     au BufNewFile,BufRead *.haml set filetype=haml
@@ -140,7 +176,17 @@ if has("autocmd")
     au BufNewFile,BufRead *.coffee set filetype=coffee
     " Enable soft-wrapping for text files
     au FileType text,markdown,html,xhtml,eruby setlocal wrap linebreak nolist
-    au FileType ruby,haml set re=1
+    "au FileType ruby,haml set re=1
+    au FileType ruby,haml NeoBundleSource vim-rails
+    au FileType haml NeoBundleSource vim-haml
+    au FileType markdown NeoBundleSource vim-markdown
+    au FileType js,json NeoBundleSource vim-javascript
+    au FileType slim NeoBundleSource vim-slim
+    au FileType less NeoBundleSource vim-less
+    au FileType jade NeoBundleSource vim-jade
+    au FileType cuke NeoBundleSource vim-cucumber
+    au FileType coffee NeoBundleSource vim-coffee-script
+    au FileType csv NeoBundleSource tabular
     if executable("xmllint")
       au FileType xml exe ":silent 1,$!xmllint --format --recover - 2>/dev/null"
     end
@@ -164,6 +210,10 @@ if has("autocmd")
     "au BufReadPre * setlocal foldmethod=indent
     "au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
   augroup END
+
+  "augroup Ctags
+    "au BufWritePost *.c,*.cpp,*.h silent! !ctags --tag-relative -Rf.git/tags --exclude=.git --languages=-sql &
+  "augroup END
 
   " Put these in an autocmd group, so that we can delete them easily.
   augroup vimrcEx
@@ -231,6 +281,9 @@ let g:tagbar_type_ruby = {
     \ ]
 \ }
 nnoremap <silent> <Leader>b :TagbarToggle<CR>
+" Easytags
+:set tags=./.git/tags;
+:let g:easytags_dynamic_files = 1
 
 " Ctrlp
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.gz " MacOSX/Linux
@@ -261,6 +314,10 @@ endif
 
 " Airline the vimscript powerline replacement
 let g:airline_powerline_fonts = 1
+
+" Gistin
+let g:gist_detect_filetype = 1
+let g:gist_clip_command = 'pbcopy'
 
 " Show whitespace
 nnoremap <Leader>s<Space> :set list!<CR>
