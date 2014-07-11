@@ -15,17 +15,15 @@ NeoBundle 'Shougo/vimproc', {
       \     'mac' : 'make -f make_mac.mak',
       \     'unix' : 'make -f make_unix.mak',
       \    },
-      \ }
+      \ } " a dependency for async in neobundle and unite
+" Fuzzy finding of files,buffers,text
 NeoBundle 'Shougo/unite.vim'
 " Wicked fast searching, a grep/ack replacement
 NeoBundle 'rking/ag.vim'
 " Colors
 NeoBundle 'chriskempson/base16-vim'
-" Fuzzy file opening
-NeoBundle 'kien/ctrlp.vim'
 " Buffers
 NeoBundle 'bling/vim-bufferline'
-NeoBundle 'bufexplorer.zip'
 " Syntax
 NeoBundleLazy 'tpope/vim-cucumber'
 NeoBundleLazy 'tpope/vim-haml'
@@ -38,10 +36,10 @@ NeoBundleLazy 'tpope/vim-rails'
 NeoBundleLazy 'kchmck/vim-coffee-script'
 NeoBundleLazy 'digitaltoad/vim-jade'
 " Movement
-NeoBundle 'Lokaltog/vim-easymotion'
+"NeoBundle 'Lokaltog/vim-easymotion'
 " Git
 NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'mattn/gist-vim'
+"NeoBundle 'mattn/gist-vim'
 NeoBundle 'gregsexton/gitv'
 " Autocompletion
 NeoBundle 'Valloric/YouCompleteMe' , {
@@ -58,11 +56,11 @@ NeoBundle 'myusuf3/numbers.vim'
 " Table formatting
 NeoBundleLazy 'godlygeek/tabular'
 " Ctags
-NeoBundle 'xolox/vim-easytags'
-NeoBundle 'xolox/vim-misc'
-NeoBundle 'tpope/vim-bundler'
 if executable('ctags')
-  NeoBundle 'majutsushi/tagbar'
+  NeoBundle 'xolox/vim-easytags'
+  NeoBundle 'xolox/vim-misc' " a dependency for easytags
+  NeoBundle 'tpope/vim-bundler'
+  "NeoBundle 'majutsushi/tagbar'
 endif
 " Terminal commands in vim
 "Bundle 'basepi/vim-conque'
@@ -176,7 +174,6 @@ if has("autocmd")
     au BufNewFile,BufRead *.coffee set filetype=coffee
     " Enable soft-wrapping for text files
     au FileType text,markdown,html,xhtml,eruby setlocal wrap linebreak nolist
-    "au FileType ruby,haml set re=1
     au FileType ruby,haml NeoBundleSource vim-rails
     au FileType haml NeoBundleSource vim-haml
     au FileType markdown NeoBundleSource vim-markdown
@@ -187,6 +184,7 @@ if has("autocmd")
     au FileType cuke NeoBundleSource vim-cucumber
     au FileType coffee NeoBundleSource vim-coffee-script
     au FileType csv NeoBundleSource tabular
+    au FileType unite call s:unite_my_settings()
     if executable("xmllint")
       au FileType xml exe ":silent 1,$!xmllint --format --recover - 2>/dev/null"
     end
@@ -254,8 +252,10 @@ if executable('ag')
   " Use Ag over Grep
   set grepprg=ag\ --nogroup\ --nocolor
 
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  " Unite integration
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '--smart-case --follow --nocolor --nogroup --hidden -g ""'
+  let g:unite_source_grep_recursive_opt = ''
 endif
 
 " Color scheme
@@ -264,37 +264,53 @@ colorscheme base16-monokai
 set colorcolumn=80
 set t_Co=256
 
-" Markdown
-command! Markdown :!bluecloth % > %:t:r.html
-map <Leader>dc :Markdown<CR>
-
 " Tagbar
-nmap <F8> :TagbarToggle<CR>
-let g:tagbar_type_ruby = {
-    \ 'kinds' : [
-        \ 'm:modules',
-        \ 'c:classes',
-        \ 'd:describes',
-        \ 'C:contexts',
-        \ 'f:methods',
-        \ 'F:singleton methods'
-    \ ]
-\ }
-nnoremap <silent> <Leader>b :TagbarToggle<CR>
-" Easytags
-:set tags=./.git/tags;
-:let g:easytags_dynamic_files = 1
+"nmap <F8> :TagbarToggle<CR>
+"let g:tagbar_type_ruby = {
+    "\ 'kinds' : [
+        "\ 'm:modules',
+        "\ 'c:classes',
+        "\ 'd:describes',
+        "\ 'C:contexts',
+        "\ 'f:methods',
+        "\ 'F:singleton methods'
+    "\ ]
+"\ }
+"nnoremap <silent> <Leader>b :TagbarToggle<CR>
 
-" Ctrlp
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.gz " MacOSX/Linux
-set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
-let g:ctrp_use_caching = 1
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
-let g:ctrlp_custom_ignore = { 'dir': '\v[\/]\.(git|hg|svn)$|log$|tmp$','file': '\.dat$|\.DS_Store$|.\.tmp$' }
-let g:ctrlp_working_path_mode='rc'
-let g:ctrlp_cmd = 'CtrlPMixed'
-nnoremap <leader>. :CtrlPTag<cr>
+" Easytags
+let g:easytags_file = './.git/tags'
+set tags=./.git/tags;
+let g:easytags_dynamic_files = 2
+let g:easytags_async = 1
+let g:easytags_auto_highlight = 0
+let g:easytags_resolve_links = 1
+let g:easytags_events = ['BufWritePost']
+
+" Unite.vim
+nnoremap <Leader>b :Unite -buffer-name=buffers -winheight=10 buffer<cr>
+nnoremap <Leader>f :Unite grep:.<cr>
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#custom#source('buffer,file,file_rec,file_rec/async','sorters','sorter_selecta')
+let g:unite_matcher_fuzzy_max_input_length = 20
+let g:unite_split_rule = "botright" " deprecated: unite#custom#profile()
+let g:unite_winheight = 10 " deprecated: unite#custom#profile()
+let g:unite_source_grep_encoding = 'utf-8'
+let g:unite_data_directory = $HOME.'/.vim/tmp/unite'
+let g:unite_source_file_min_cache_files = 0
+let g:unite_force_overwrite_statusline = 0
+" replacing ctrl-p with unite
+nnoremap <silent> <C-p> :Unite -start-insert -buffer-name=files -winheight=10 file_rec/async<cr>
+function! s:unite_my_settings()
+  " Overwrite settings.
+  nmap <buffer> <ESC> <Plug>(unite_exit)
+  imap <buffer> <ESC> <Plug>(unite_exit)
+  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+  imap <silent><buffer><expr> <C-s> unite#do_action('split')
+  imap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
+  imap <silent><buffer><expr> <C-t> unite#do_action('tabopen')
+endfunction
 
 " This ain't your mother's house so keep it clean.
 if isdirectory(expand('~/.cache/vim'))
