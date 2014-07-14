@@ -25,11 +25,11 @@ vimdir = File.join(Dir.home, '.vim')
 puts "Cloning saghaulor's vimfiles to #{vimdir}"
 git_clone(vimfiles_repo, vimdir)
 
-vundle_repo = "https://github.com/gmarik/vundle.git"
-vundle = File.join(vimdir, 'bundle', 'vundle')
+neobundle_repo = "https://github.com/Shougo/neobundle.vim"
+neoundle = File.join(vimdir, 'bundle', 'neobundle')
 
-puts "Cloning vundle to #{vundle}"
-git_clone(vundle_repo, vundle)
+puts "Cloning neobundle to #{neobundle}"
+git_clone(neobundle_repo, neobundle)
 
 puts "Copying .vimrc and .gvimrc to #{Dir.home}"
 ['vimrc', 'gvimrc'].map do |rc|
@@ -43,8 +43,8 @@ end
 puts "Installing exuberant ctags"
 %x(brew install ctags)
 
-puts "Installing vim plugins with vundle"
-%x(vim +BundleInstall +qall)
+puts "Installing vim plugins with neobundle"
+%x(vim +NeoBundleInstall +qall)
 
 if which 'node'
   jsctags_repo =  'https://github.com/mozilla/doctorjs.git'
