@@ -254,7 +254,7 @@ if executable('ag')
 
   " Unite integration
   let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts = '--smart-case --follow --nocolor --nogroup --hidden -g ""'
+  let g:unite_source_grep_default_opts = '--smart-case --follow --nocolor --nogroup --hidden -g "" --ignore .hg --ignore .svn --ignore .git'
   let g:unite_source_grep_recursive_opt = ''
 endif
 
@@ -289,14 +289,14 @@ let g:easytags_events = ['BufWritePost']
 
 " Unite.vim
 nnoremap <Leader>b :Unite -buffer-name=buffers -winheight=10 buffer<cr>
-nnoremap <Leader>f :Unite grep:.<cr>
+nnoremap <Leader>f :<C-u>Unite -no-split -silent -buffer-name=ag grep:.<CR>
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#custom#source('buffer,file,file_rec,file_rec/async','sorters','sorter_selecta')
+call unite#custom#source('buffer,file,file_rec,file/new,file_rec/git,file_rec/async','sorters','sorter_selecta')
 let g:unite_matcher_fuzzy_max_input_length = 20
 let g:unite_split_rule = "botright" " deprecated: unite#custom#profile()
 let g:unite_winheight = 10 " deprecated: unite#custom#profile()
 let g:unite_source_grep_encoding = 'utf-8'
-let g:unite_data_directory = $HOME.'/.vim/tmp/unite'
+let g:unite_data_directory = $HOME/'.vim/tmp/unite'
 let g:unite_source_file_min_cache_files = 0
 let g:unite_force_overwrite_statusline = 0
 " replacing ctrl-p with unite
