@@ -1,5 +1,5 @@
 " Font
-set guifont=Monaco:h18
+set guifont=Monaco:h14
 set antialias
 " Remove side scrollbars
 set guioptions-=L
